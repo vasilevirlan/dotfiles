@@ -49,11 +49,14 @@ highlight ColorColumn ctermbg=245
 """""""""""""""""""""""""""""""""""""""""""""""""VIMPLUG"
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/syntastic'  
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'davidhalter/jedi-vim'
 Plug 'sheerun/vim-polyglot'
 call plug#end()
+
+let g:syntastic_check_on_open       = 1
 
 "map Ctrl+t to open/close NERDTree plugin (filetree)
 map <C-t> :NERDTreeToggle<CR>
