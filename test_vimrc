@@ -1,21 +1,18 @@
 "Created 12.09.2019
-" In this file I use a lot "Learn Vimscript in a Hard Way from
-" https://learnvimscriptthehardway.stevelosh.com/
 """""""""""""""""""""""""""""""""""""""""""""Summary
+
 """"""""""""""""""""""""""""""""""""""""""""""""""APPEARANCE
 """"""""""""""""""""""""""""""""""""""""""""""""""PLUGINS
-""""""""""""""""""""""""""""""""""""""""""""""""""KEYS MAPPING"
-
-"Aperance'''''''''''''''''''''''''''''''''''''''''''''
-
+""""""""""""""""""""""""""""""""""""""""""""""""""KEYS MAPPING
+"
 "Show line number
 set nu
-
-" Set relativenumber. Added 27.11.2020. detail : help relativenumber 'rnu'.
+" The [numberwidth] or [nuw] option changes how wide the column containg line
+" numbers will be. From https://learnvimscriptthehardway.stevelosh.com/chapters/02.html
+set nuw=5
+" Show the line number raltive to the cursor. See more on help rnu
 set rnu
 
-" Set numberwidth
-set numberwidth=5
 "enable syntax highlighting
 syntax enable
 
@@ -42,6 +39,8 @@ set hlsearch
 set foldmethod=indent
 set foldlevel=99
 
+"Enable folding with spacebar
+nnoremap <space> za
 
 " Easier moving of code block added 08.06.20
 vnoremap < <gv " better indentation
@@ -51,24 +50,30 @@ vnoremap > >gv " better indentation
 set colorcolumn=80
 highlight ColorColumn ctermbg=245
 
+" set color
+set t_Co=256
+
 """""""""""""""""""""""""""""""""""""""""""""""""VIMPLUG"
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/syntastic'  
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'davidhalter/jedi-vim'
 Plug 'sheerun/vim-polyglot'
 call plug#end()
 
-""""""""""""""""""""""""""""""""""""""""""""""""""KEYS MAPPING"
+let g:syntastic_check_on_open       = 1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""KEYS MAPPING
 "map Ctrl+t to open/close NERDTree plugin (filetree)
-nnoremap <C-t> :NERDTreeToggle<CR>
+map <C-t> :NERDTreeToggle<CR>
 
 "commod way to leaving INSERT mode atribuing <ESC> to jk
 inoremap jk <ESC>
 
-"Enable folding with spacebar
-nnoremap <space> za
+"Set powerline arrows
+let g:airline_powerline_fonts = 1
 
 "Automatically dsiplay all buffers when there is only one tab open
 let g:airline#extensions#tabline#enabled = 1
@@ -76,3 +81,21 @@ let g:airline#extensions#tabline#enabled = 1
 "Airleine Theme
 "let g:airline_theme='light'
 
+""""""""""""""""""""""""""""""""""""""""""""""""""ABBREVIATION
+" Abreviation for Python's keywords. Don't forget to see :help iabbrev.
+iabbrev -a and
+iabbrev -b break
+iabbrev -c Class
+iabbrev _c continue
+iabbrev -d def
+iabbrev -e else
+iabbrev _e elif
+iabbrev -x except
+iabbrev -F False
+iabbrev -f for
+iabbrev _f from
+iabbrev -i import
+iabbrev -l lambda
+iabbrev -r return
+iabbrev -T True
+iabbrev -w while
