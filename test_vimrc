@@ -1,18 +1,22 @@
 "Created 12.09.2019
+" In this file I use a lot "Learn Vimscript in a Hard Way from
+" https://learnvimscriptthehardway.stevelosh.com/
 """""""""""""""""""""""""""""""""""""""""""""Summary
-
 """"""""""""""""""""""""""""""""""""""""""""""""""APPEARANCE
 """"""""""""""""""""""""""""""""""""""""""""""""""PLUGINS
-""""""""""""""""""""""""""""""""""""""""""""""""""KEYS MAPPING
-"
+""""""""""""""""""""""""""""""""""""""""""""""""""KEYS MAPPING"
+""""""""""""""""""""""""""""""""""""""""""""""""""FOLDING FUNCTION
+""""""""""""""""""""""""""""""""""""""""""""""""""HISTORY
+
+"APPERANCE'''''''''''''''''''''''''''''''''''''''''''''{{{
 "Show line number
 set nu
-" The [numberwidth] or [nuw] option changes how wide the column containg line
-" numbers will be. From https://learnvimscriptthehardway.stevelosh.com/chapters/02.html
-set nuw=5
-" Show the line number raltive to the cursor. See more on help rnu
+
+" Set relativenumber. Added 27.11.2020. detail : help relativenumber 'rnu'.
 set rnu
 
+" Set numberwidth
+set numberwidth=5
 "enable syntax highlighting
 syntax enable
 
@@ -37,10 +41,7 @@ set hlsearch
 
 "Enable Code folding -- added 24.05.2020
 set foldmethod=indent
-set foldlevel=99
-
-"Enable folding with spacebar
-nnoremap <space> za
+set foldlevel=99             
 
 " Easier moving of code block added 08.06.20
 vnoremap < <gv " better indentation
@@ -50,38 +51,42 @@ vnoremap > >gv " better indentation
 set colorcolumn=80
 highlight ColorColumn ctermbg=245
 
-" set color
+"Color for airline status bar
 set t_Co=256
+""""""""""""""""""""""""""""""""""""""""""""""""""}}}
 
-"""""""""""""""""""""""""""""""""""""""""""""""""VIMPLUG"
-call plug#begin('~/.vim/plugged')
-Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'  
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'davidhalter/jedi-vim'
-Plug 'sheerun/vim-polyglot'
-call plug#end()
-
-let g:syntastic_check_on_open       = 1
-
-""""""""""""""""""""""""""""""""""""""""""""""""""KEYS MAPPING
+"""""""""""""""""""""""""""""""""""""""""""""""""VIMPLUG"{{{
+"call plug#begin('~/.vim/plugged')
+"Plug 'scrooloose/nerdtree'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+"Plug 'davidhalter/jedi-vim'
+"Plug 'sheerun/vim-polyglot'
+"call plug#end()
+""""""""""""""""""""""""""""""""""""""""""""""""""}}}
+""""""""""""""""""""""""""""""""""""""""""""""""""KEYS MAPPINGS"{{{
 "map Ctrl+t to open/close NERDTree plugin (filetree)
-map <C-t> :NERDTreeToggle<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
 
 "commod way to leaving INSERT mode atribuing <ESC> to jk
 inoremap jk <ESC>
 
-"Set powerline arrows
+"Enable folding with spacebar
+nnoremap <space> za
+
+" Set airlines arrow on airline status bar. Work with hack regular font
 let g:airline_powerline_fonts = 1
+
+"Draw statusline (airline) to be drawn on top
+let g:airline_statusline_ontop=0
 
 "Automatically dsiplay all buffers when there is only one tab open
 let g:airline#extensions#tabline#enabled = 1
 
-"Airleine Theme
+"Airline Theme
 "let g:airline_theme='light'
-
-""""""""""""""""""""""""""""""""""""""""""""""""""ABBREVIATION
+""""""""""""""""""""""""""""""""""""""""""""""""""}}}
+""""""""""""""""""""""""""""""""""""""""""""""""""ABBREVIATION{{{
 " Abreviation for Python's keywords. Don't forget to see :help iabbrev.
 iabbrev -a and
 iabbrev -b break
@@ -99,3 +104,23 @@ iabbrev -l lambda
 iabbrev -r return
 iabbrev -T True
 iabbrev -w while
+""""""""""""""""""""""""""""""""""""""""""""""""""}}}
+""""""""""""""""""""""""""""""""""""""""""""""""""FOLDING{{{
+augroup filetype_vim
+		autocmd!
+		autocmd FileType vim setlocal foldmethod=marker
+augroup END
+	
+" Vimscript file settings---------------------- {{{
+augroup filetype_vim
+	autocmd!
+	autocmd FileType vim setlocal foldmethod=marker
+augroup END
+" }}}
+""""""""""""""""""""""""""""""""""""""""""""""""""}}}
+""""""""""""""""""""""""""""""""""""""""""""""""""HISTORY{{{
+"In this chapter of my vimrc I shall describe the features added to my vimrc,
+"how theywork shortly.
+"09.12.2020 Added folding Function: put the cursor on the curlly braces and
+"press [za] to fold the entire chapter.
+""""""""""""""""""""""""""""""""""""""""""""""""""}}}
