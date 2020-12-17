@@ -1,3 +1,3 @@
-# dofiles
+# dotfiles
 my_dotfiles
 .vimrc
