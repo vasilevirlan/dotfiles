@@ -19,12 +19,24 @@ set rnu
 set numberwidth=5
 "enable syntax highlighting
 syntax enable
-colorscheme candycode_bluecursorline
+"colorscheme candycode_bluecursorline
+set conceallevel=0
+hi link HelpBar Normal
+hi link HelpStar Normal
 "set tabs to have 4 spaces
 set ts=4
 
 "show visual line under cursor
 set cursorline
+
+"show visual vertical cursorline
+set cursorcolumn
+
+"Enable auto completion menu after pressing TAB.
+set wildmenu
+
+" Make wildmenu behave like similar to Bash completion.
+"set wildmode=list:longest
 
 "show matching part of the pair  for[],{} and ().
 set showmatch
@@ -40,7 +52,7 @@ set syntax=sh
 set hlsearch
 
 "Enable Code folding -- added 24.05.2020
-set foldmethod=indent
+set foldmethod=syntax
 set foldlevel=99             
 
 " Easier moving of code block added 08.06.20
@@ -75,11 +87,6 @@ inoremap jk <ESC>
 "Enable folding with spacebar
 nnoremap <space> za
 
-" the separator used on the left side >
-  let g:airline_left_sep='>>'
-  
-" the separator used on the right side >
-  let g:airline_right_sep='<<'
 
 " Set airlines arrow on airline status bar. Work with hack regular font
 let g:airline_powerline_fonts = 1
