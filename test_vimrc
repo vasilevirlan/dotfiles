@@ -1,4 +1,4 @@
-"Created 12.09.2019
+" Created 12.09.2019
 " In this file I use a lot "Learn Vimscript in a Hard Way from
 " https://learnvimscriptthehardway.stevelosh.com/
 """""""""""""""""""""""""""""""""""""""""""""Summary
@@ -19,26 +19,22 @@ set rnu
 set numberwidth=5
 "enable syntax highlighting
 syntax enable
-"colorscheme candycode_bluecursorline
-set conceallevel=0
-hi link HelpBar Normal
-hi link HelpStar Normal
+
 "set tabs to have 4 spaces
 set ts=4
 
 "show visual line under cursor
 set cursorline
-
-"show visual vertical cursorline
+" show visual vertical line with cursor
 set cursorcolumn
 
-"Enable auto completion menu after pressing TAB.
+" Show command bar above the command you're typping.
 set wildmenu
 
-" Make wildmenu behave like similar to Bash completion.
-"set wildmode=list:longest
+" Make wild menu behave similar to Bash completion.
+" set wildmode=list:longest
 
-"show matching part of the pair  for[],{} and ().
+" show matching part of the pair for[],{} and ().
 set showmatch
 
 "enable all Python syntax highlighting features
@@ -51,8 +47,11 @@ set syntax=sh
 "Turns on option to highlight search result
 set hlsearch
 
+" Highlight the search matching while typing
+set incsearch
+
 "Enable Code folding -- added 24.05.2020
-set foldmethod=syntax
+set foldmethod=indent
 set foldlevel=99             
 
 " Easier moving of code block added 08.06.20
@@ -68,16 +67,22 @@ set t_Co=256
 """"""""""""""""""""""""""""""""""""""""""""""""""}}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""VIMPLUG"{{{
-call plug#begin('~/.vim/plugged')
-Plug 'scrooloose/nerdtree'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'davidhalter/jedi-vim'
-Plug 'sheerun/vim-polyglot'
-Plug 'scrooloose/syntastic'
-call plug#end()
+" call plug#begin('~/.vim/plugged')
+" Plug 'scrooloose/nerdtree'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+" Plug 'davidhalter/jedi-vim'
+" Plug 'sheerun/vim-polyglot'
+" Plug 'scrooloose/syntastic'
+" Plug 'tpope/vim-fugitive'
+" call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""}}}
 """"""""""""""""""""""""""""""""""""""""""""""""""KEYS MAPPINGS"{{{
+" Edit your vimrc on the fly while codding: <leader>ev
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+
+" Source your .vimrc on the fly: <leader>sv
+nnoremap <leader>sv :source $MYVIMRC<cr>
 "map Ctrl+t to open/close NERDTree plugin (filetree)
 nnoremap <C-t> :NERDTreeToggle<CR>
 
@@ -91,20 +96,20 @@ nnoremap <space> za
 " Set airlines arrow on airline status bar. Work with hack regular font
 let g:airline_powerline_fonts = 1
 
-"Draw statusline (airline) to be drawn on top
+"Draw statusline (airline) to be drawn on top - set to 1.
 let g:airline_statusline_ontop=0
 
 "Automatically dsiplay all buffers when there is only one tab open
 let g:airline#extensions#tabline#enabled = 1
 
-"Airline Theme
-"let g:airline_theme='light'
+"Airline Theme - See airlines-thmes doc folder for more themes.
+let g:airline_theme='luna'
 """"""""""""""""""""""""""""""""""""""""""""""""""}}}
 """"""""""""""""""""""""""""""""""""""""""""""""""ABBREVIATION{{{
 " Abreviation for Python's keywords. Don't forget to see :help iabbrev.
 iabbrev -a and
 iabbrev -b break
-iabbrev -c Class
+iabbrev -c class
 iabbrev _c continue
 iabbrev -d def
 iabbrev -e else
@@ -132,6 +137,17 @@ augroup filetype_vim
 augroup END
 " }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""}}}
+"""""""""""""""""""""""""""""""""""""""""""""""""""{{{
+" show syntax highlighting groups for word under cursor
+" Control+Shift+I to see the group
+nmap <C-S-I> : call <SID>SynStack()<CR>
+function! <SID>SynStack()
+	if !exists("*synstack")
+		return
+	endif
+	echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
 """"""""""""""""""""""""""""""""""""""""""""""""""HISTORY{{{
 "In this chapter of my vimrc I shall describe the features added to my vimrc,
 "how theywork shortly.
