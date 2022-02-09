@@ -1,4 +1,4 @@
-" Created 12.09.2019
+"Created 12.09.2019
 " In this file I use a lot "Learn Vimscript in a Hard Way from
 " https://learnvimscriptthehardway.stevelosh.com/
 """""""""""""""""""""""""""""""""""""""""""""Summary
@@ -6,6 +6,7 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""KEYS MAPPING"
 """"""""""""""""""""""""""""""""""""""""""""""""""FOLDING FUNCTION
+""""""""""""""""""""""""""""""""""""""""""""""""""AUTO BACKUP
 """"""""""""""""""""""""""""""""""""""""""""""""""HISTORY
 
 "APPERANCE'''''''''''''''''''''''''''''''''''''''''''''{{{
@@ -19,22 +20,26 @@ set rnu
 set numberwidth=5
 "enable syntax highlighting
 syntax enable
-
+"colorscheme candycode_bluecursorline
+set conceallevel=0
+hi link HelpBar Normal
+hi link HelpStar Normal
 "set tabs to have 4 spaces
 set ts=4
 
 "show visual line under cursor
 set cursorline
-" show visual vertical line with cursor
+
+"show visual vertical cursorline
 set cursorcolumn
 
-" Show command bar above the command you're typping.
+"Enable auto completion menu after pressing TAB.
 set wildmenu
 
-" Make wild menu behave similar to Bash completion.
-" set wildmode=list:longest
+" Make wildmenu behave like similar to Bash completion.
+"set wildmode=list:longest
 
-" show matching part of the pair for[],{} and ().
+"show matching part of the pair  for[],{} and ().
 set showmatch
 
 "enable all Python syntax highlighting features
@@ -47,11 +52,10 @@ set syntax=sh
 "Turns on option to highlight search result
 set hlsearch
 
-" Highlight the search matching while typing
+"Enable searching as you type, rather than waiting till you press enter.
 set incsearch
-
 "Enable Code folding -- added 24.05.2020
-set foldmethod=indent
+set foldmethod=syntax
 set foldlevel=99             
 
 " Easier moving of code block added 08.06.20
@@ -67,22 +71,24 @@ set t_Co=256
 """"""""""""""""""""""""""""""""""""""""""""""""""}}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""VIMPLUG"{{{
-" call plug#begin('~/.vim/plugged')
-" Plug 'scrooloose/nerdtree'
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
-" Plug 'davidhalter/jedi-vim'
-" Plug 'sheerun/vim-polyglot'
-" Plug 'scrooloose/syntastic'
-" Plug 'tpope/vim-fugitive'
-" call plug#end()
+"call plug#begin('~/.vim/plugged')
+"Plug 'scrooloose/nerdtree'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+"Plug 'davidhalter/jedi-vim'
+"Plug 'sheerun/vim-polyglot'
+"Plug 'scrooloose/syntastic'
+"Plug 'vim-scripts/c.vim'
+"Plug 'tpope/vim-fugitive'
+"call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""}}}
 """"""""""""""""""""""""""""""""""""""""""""""""""KEYS MAPPINGS"{{{
-" Edit your vimrc on the fly while codding: <leader>ev
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+" Edit your .vimrc on the fly
+nnoremap<leader>ev :vsplit $MYVIMRC <cr>
 
-" Source your .vimrc on the fly: <leader>sv
-nnoremap <leader>sv :source $MYVIMRC<cr>
+" Source your .vimrc onthe fly
+nnoremap<leader> sv :source $MYVIMRC
+
 "map Ctrl+t to open/close NERDTree plugin (filetree)
 nnoremap <C-t> :NERDTreeToggle<CR>
 
@@ -95,14 +101,16 @@ nnoremap <space> za
 
 " Set airlines arrow on airline status bar. Work with hack regular font
 let g:airline_powerline_fonts = 1
-
-"Draw statusline (airline) to be drawn on top - set to 1.
+let g:airline_detect_paste = 1
+let g:airline_detect_spell = 1
+let g:airline_detect_spelllang=1
+"Draw statusline (airline) to be drawn on top
 let g:airline_statusline_ontop=0
 
-"Automatically dsiplay all buffers when there is only one tab open
+"Automatically display all buffers when there is only one tab open
 let g:airline#extensions#tabline#enabled = 1
 
-"Airline Theme - See airlines-thmes doc folder for more themes.
+"Airline Theme
 let g:airline_theme='luna'
 """"""""""""""""""""""""""""""""""""""""""""""""""}}}
 """"""""""""""""""""""""""""""""""""""""""""""""""ABBREVIATION{{{
@@ -135,22 +143,41 @@ augroup filetype_vim
 	autocmd!
 	autocmd FileType vim setlocal foldmethod=marker
 augroup END
-" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""}}}
-"""""""""""""""""""""""""""""""""""""""""""""""""""{{{
-" show syntax highlighting groups for word under cursor
-" Control+Shift+I to see the group
-nmap <C-S-I> : call <SID>SynStack()<CR>
-function! <SID>SynStack()
-	if !exists("*synstack")
-		return
-	endif
-	echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
+""""""""""""""""""""""""""""""""""""""""""""""""""FAST EDITING/SOURCING VIMRC {{{
+" This solution I find on learnvimscriphardway.stevelosh.com chapter 7.
+" I didn't change the default Leader.
+" this for editing on fly
 
+:nnoremap<leader>ev :vsplit $MYVIMRC<cr>
+
+" this for sourcing on fly
+:nnoremap<leader>sv :source $MYVIMRC<cr>
+""""""""""""""""""""""""""""""""""""""""""""""""""}}}
+""""""""""""""""""""""""""""""""""""""""""""""""""AUTO BACKUP{{{
+"Turn on backup option..
+set backup
+
+"Place to store backups. Backupdir should exist before inserting this lines.
+set backupdir=~/.vim_backup
+
+"Make backup before overwriting the current buffer.
+set writebackup
+
+"Overwrite the original backup file.
+set backupcopy=yes
+
+"Meaningful bacup name.
+au BufWritePre * let &bex = ' @' . strftime("%F:%H:%M:%S")
+""""""""""""""""""""""""""""""""""""""""""""""""""}}}
 """"""""""""""""""""""""""""""""""""""""""""""""""HISTORY{{{
 "In this chapter of my vimrc I shall describe the features added to my vimrc,
 "how theywork shortly.
 "09.12.2020 Added folding Function: put the cursor on the curlly braces and
 "press [za] to fold the entire chapter.
+" 25 juin 2021 changed vim-airline-theme to the luna. See more themes on vim-
+" airleins themes documentation file in
+" ~/.vim/plugged/vim-airlines-themes/doc/.
+"
+"June 29 2021 Added FAST EDITING/SOURCING MYVIMRC.
 """"""""""""""""""""""""""""""""""""""""""""""""""}}}
