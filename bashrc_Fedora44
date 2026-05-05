@@ -1,0 +1,48 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
+    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+if [ -d ~/.bashrc.d ]; then
+    for rc in ~/.bashrc.d/*; do
+        if [ -f "$rc" ]; then
+            . "$rc"
+        fi
+    done
+fi
+unset rc
+
+# My aliases
+alias a='alias'
+alias ea='vim ~/.bash_aliases'
+alias ga='git add && git commit'
+alias gc='git clone'
+alias h='history'
+alias l='ls -alFhi --color=auto'
+alias la='ls -A'
+alias v='vim'
+alias c='clear'
+alias ch='chmod +x'
+alias m='man'
+alias r='ranger'
+alias s='sudo'
+alias sr='source .bashrc'
+alias sp='source ~/pythoncode/pythontest/pythontest/bin/activate'
+alias t='type'
+alias vb='vim ~/.bashrc'
+alias vv='vim ~/.vimrc'
+
+# history command will display when each command was executed.Added 05052026.
+export HISTTIMEFORMAT="%F %T "
